@@ -1,14 +1,11 @@
 import styled from '@emotion/styled';
 import { Outlet } from 'react-router-dom';
+import AppHeader from './AppHeader';
 
 function App() {
-  const headerHeight = 48;
-
   return (
-    <Container headerHeight={headerHeight}>
-      <Header height={headerHeight}>
-        <Navbar>Nav</Navbar>
-      </Header>
+    <Container>
+      <AppHeader />
       <ScrollContainer>
         <Main>
           <Outlet />
@@ -19,25 +16,11 @@ function App() {
   );
 }
 
-const Container = styled.div<{ headerHeight: number }>`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  padding-top: ${(props) => `${props.headerHeight}px`};
-`;
-
-const Header = styled.header<{ height: number }>`
-  position: fixed;
-  top: 0;
-  display: flex;
-  width: 100%;
-  height: ${(props) => `${props.height}px`};
-  background-color: grey;
-`;
-
-const Navbar = styled.nav`
-  display: flex;
 `;
 
 const ScrollContainer = styled.div`
@@ -50,6 +33,7 @@ const ScrollContainer = styled.div`
 
 const Main = styled.main`
   flex-grow: 1;
+  padding-bottom: 2500px;
 `;
 
 const Footer = styled.footer`
