@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Outlet } from 'react-router-dom';
-import Header from './components/header/Header';
+import Header from './header/Header';
 
 function App() {
   return (
