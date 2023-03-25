@@ -1,5 +1,5 @@
-import Navbar, { type Menu, type NavbarStyle } from '../header/Navbar';
-import { type SubMenuStyle } from '../header/SubMenu';
+import Navbar, { type Menu, type NavbarStyle } from './Navbar';
+import { type SubMenuStyle } from './SubMenu';
 
 const navbarStyle: NavbarStyle = {
   backgroundColor: 'white',
@@ -66,8 +66,8 @@ const contact: Menu = {
   label: 'Contact'
 };
 
-function AppHeader() {
+function Header() {
   return <Navbar {...navbarStyle} menus={[about, projects, contact]} />;
 }
 
-export default AppHeader;
+export default Header;
