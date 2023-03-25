@@ -23,6 +23,7 @@
             "version": "detect"
         }
     },
+    // Standard rules: https://github.com/standard/eslint-config-standard-with-typescript/blob/master/src/index.ts
     "rules": {
         "react/react-in-jsx-scope": "off",
         "@typescript-eslint/semi": ["error", "always"],
