@@ -44,28 +44,26 @@ function Navbar({
     };
   }, []);
 
-  const getMenuItems = (sub: boolean) =>
-    menus?.map((menu) => {
-      const { label, subMenu } = menu;
-
-      return (
-        <MenuWrapper
-          key={label}
-          backgroundColor={backgroundColor}
-          hoverBackgroundColor={hoverBackgroundColor}
-          fontColor={fontColor}
-          hoverFontColor={hoverFontColor}
-        >
-          {label}
-          {sub && subMenu && <SubMenu {...subMenu} offset={height} />}
-        </MenuWrapper>
-      );
-    });
-
   return (
     <Container className={className} id={navbarId}>
-      <MenuContainer>{getMenuItems(true)}</MenuContainer>
-      <Spacer>{getMenuItems(false)}</Spacer>
+      <MenuContainer>
+        {menus?.map((menu) => {
+          const { label, subMenu } = menu;
+
+          return (
+            <MenuWrapper
+              key={label}
+              backgroundColor={backgroundColor}
+              hoverBackgroundColor={hoverBackgroundColor}
+              fontColor={fontColor}
+              hoverFontColor={hoverFontColor}
+            >
+              {label}
+              {subMenu && <SubMenu {...subMenu} offset={height} />}
+            </MenuWrapper>
+          );
+        })}
+      </MenuContainer>
     </Container>
   );
 }
@@ -75,16 +73,8 @@ const Container = styled.div`
 `;
 
 const MenuContainer = styled.nav`
-  position: fixed;
-  top: 0;
-  width: 100%;
   display: flex;
   gap: 8px;
-`;
-
-const Spacer = styled.div`
-  visibility: hidden;
-  display: flex;
 `;
 
 const MenuWrapper = styled.div<NavbarStyle>`

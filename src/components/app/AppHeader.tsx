@@ -1,4 +1,4 @@
-import Navbar, { type NavbarStyle } from '../header/Navbar';
+import Navbar, { type Menu, type NavbarStyle } from '../header/Navbar';
 import { type SubMenuStyle } from '../header/SubMenu';
 
 const navbarStyle: NavbarStyle = {
@@ -13,7 +13,7 @@ const subMenuStyle: SubMenuStyle = {
   borderColor: 'lightgray'
 };
 
-const about = {
+const about: Menu = {
   label: 'About',
   subMenu: {
     ...subMenuStyle,
@@ -22,7 +22,7 @@ const about = {
   }
 };
 
-const projects = {
+const projects: Menu = {
   label: 'Projects',
   subMenu: {
     ...subMenuStyle,
@@ -62,7 +62,7 @@ const projects = {
   }
 };
 
-const contact = {
+const contact: Menu = {
   label: 'Contact'
 };
 
