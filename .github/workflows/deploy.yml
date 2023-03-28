@@ -16,6 +16,8 @@ jobs:
         
       - name: install node
         uses: actions/setup-node@v3
+        # using later versions of node breaks due to react-scripts v5.0.1 incompatible with typescript v5;
+        # this specific node/npm version works though
         with:
           node-version: "16.14.2"
           npm: "8.5.0"
