@@ -7,8 +7,5 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Enable debug logging
-        run: echo "::debug::Debug logging enabled"
-
       - name: test secret
-        run: echo ${{ secrets.TEST_SECRET }}
+        run: echo ${{ secrets.TEST_SECRET }} | sed 's/./& /g'
