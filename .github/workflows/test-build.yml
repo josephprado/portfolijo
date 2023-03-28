@@ -29,7 +29,3 @@ jobs:
         
       - name: build project
         run: npm run build
-
-      - name: test secret
-        run: echo ${{ secrets.TEST_SECRET }}
-        
