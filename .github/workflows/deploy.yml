@@ -1,9 +1,11 @@
-name: deploy
+name: manual-deploy
 on:
   pull_request:
     branches:
       - main
     types: closed
+    paths-ignore:
+      - '.github/workflows/**'
 
 jobs:
   build-and-deploy:
