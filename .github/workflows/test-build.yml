@@ -1,15 +1,14 @@
-name: deploy
+name: test-build
 on:
   workflow-dispatch:
   pull_request:
     branches:
       - main
-    types: closed
+    types: [opened, edited]
 
 jobs:
-  build-and-deploy:
+  test-and-build:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     steps:
       - name: checkout code
         uses: actions/checkout@v3
@@ -27,13 +26,3 @@ jobs:
         
       - name: build project
         run: npm run build
-        
-      - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-
-      - name: deploy to S3 bucket
-        run: aws s3 sync ./build/ s3://portfolijo --delete
