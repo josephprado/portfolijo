@@ -3,7 +3,7 @@ export interface HomeProps {
 }
 
 function Home({ className }: HomeProps) {
-  return <div className={className}>Home</div>;
+  return <div className={className}>Welcome to my portfolio</div>;
 }
 
 export default Home;
