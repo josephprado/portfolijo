@@ -35,3 +35,6 @@ jobs:
 
       - name: deploy to S3 bucket
         run: aws s3 sync ./build/ s3://portfolijo --delete
+
+      - name: invalidate cloudfront cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ SECRETS.AWS_CLOUDFRONT_DIST_ID}} --paths "/*"
