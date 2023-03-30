@@ -38,12 +38,7 @@ jobs:
 
       - name: get current date
         id: date
-        run: echo "CURRENT_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
-
-      - name: set environment variables
-        run: echo $REACT_APP_BUILD_DATE
-        env:
-          REACT_APP_BUILD_DATE: ${{ steps.date.outputs.CURRENT_DATE }}
+        run: echo "REACT_APP_BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
         
       - name: build project
         run: npm run build
