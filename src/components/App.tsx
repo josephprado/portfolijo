@@ -33,7 +33,6 @@ const ScrollContainer = styled.div`
 
 const Main = styled.main`
   flex-grow: 1;
-  padding-bottom: 2500px;
 `;
 
 const Footer = styled.footer`
