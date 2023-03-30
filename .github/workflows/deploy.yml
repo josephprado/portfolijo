@@ -10,7 +10,7 @@ on:
 env:
   REACT_APP_VERSION: 0.1.0
   ACTIONS_STEP_DEBUG: true
-  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}""
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
 jobs:
   build-and-deploy:
