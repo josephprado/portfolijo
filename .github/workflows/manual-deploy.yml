@@ -2,6 +2,10 @@ name: manual-deploy
 on:
   workflow_dispatch:
 
+env:
+  REACT_APP_VERSION: 0.1.0
+  REACT_APP_BUILD_DATE: ${{ github.event.head_commit.timestamp }}
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

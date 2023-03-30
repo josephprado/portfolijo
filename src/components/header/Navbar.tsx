@@ -22,7 +22,7 @@ export interface NavbarProps extends NavbarStyle {
 function Navbar({
   className,
   menus,
-  backgroundColor = 'white',
+  backgroundColor = 'inherit',
   hoverBackgroundColor = 'lightgreen',
   fontColor = 'black',
   hoverFontColor = 'black'
@@ -45,36 +45,36 @@ function Navbar({
   }, []);
 
   return (
-    <Container className={className} id={navbarId}>
-      <MenuContainer>
-        {menus?.map((menu) => {
-          const { label, subMenu } = menu;
+    <Container
+      className={className}
+      id={navbarId}
+      backgroundColor={backgroundColor}
+    >
+      {menus?.map((menu) => {
+        const { label, subMenu } = menu;
 
-          return (
-            <MenuWrapper
-              key={label}
-              backgroundColor={backgroundColor}
-              hoverBackgroundColor={hoverBackgroundColor}
-              fontColor={fontColor}
-              hoverFontColor={hoverFontColor}
-            >
-              {label}
-              {subMenu && <SubMenu {...subMenu} offset={height} />}
-            </MenuWrapper>
-          );
-        })}
-      </MenuContainer>
+        return (
+          <MenuWrapper
+            key={label}
+            backgroundColor={backgroundColor}
+            hoverBackgroundColor={hoverBackgroundColor}
+            fontColor={fontColor}
+            hoverFontColor={hoverFontColor}
+          >
+            {label}
+            {subMenu && <SubMenu {...subMenu} offset={height} />}
+          </MenuWrapper>
+        );
+      })}
     </Container>
   );
 }
 
-const Container = styled.div`
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-`;
-
-const MenuContainer = styled.nav`
+const Container = styled.nav<{ backgroundColor: string }>`
   display: flex;
   gap: 8px;
+  background-color: ${(props) => props.backgroundColor};
+  z-index: 2;
 `;
 
 const MenuWrapper = styled.div<NavbarStyle>`

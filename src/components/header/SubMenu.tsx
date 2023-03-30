@@ -96,11 +96,7 @@ function SubMenu({
           const { label, subMenu } = item;
 
           return (
-            <Item
-              key={label}
-              id={getSubMenuId(label)}
-              hoverBackgroundColor={hoverBackgroundColor}
-            >
+            <Item key={label} id={getSubMenuId(label)} {...subMenuStyle}>
               <ItemContent>
                 {label}
                 {subMenu && (
@@ -139,13 +135,14 @@ const Container = styled.div<SubMenuStyle & { offset: number }>`
   color: ${(props) => props.fontColor};
   border: ${(props) => props.borderColor && `1px solid ${props.borderColor}`};
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 
   :hover {
     display: flex;
   }
 `;
 
-const Item = styled.div<{ hoverBackgroundColor: string }>`
+const Item = styled.div<SubMenuStyle>`
   position: relative;
   min-width: max-content;
   flex-grow: 1;
@@ -153,6 +150,7 @@ const Item = styled.div<{ hoverBackgroundColor: string }>`
 
   :hover {
     background-color: ${(props) => props.hoverBackgroundColor};
+    color: ${(props) => props.hoverFontColor};
   }
 `;
 
