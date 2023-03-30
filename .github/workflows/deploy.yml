@@ -55,10 +55,7 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} > jwt_secret
 
       - name: print jwt sub claim
-        run: |
-          cat jwt_secret
-          base64 --decode
-          jq -r '.["token.actions.githubusercontent.com"].sub'
+        run: cat jwt_secret | base64 --decode | jq -r '.["token.actions.githubusercontent.com"].sub'
 
       - name: deploy to S3 bucket
         run: aws s3 sync ./build/ s3://portfolijo --delete
