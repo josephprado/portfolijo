@@ -21,7 +21,7 @@ function Home({ className }: HomeProps) {
         <h2>My Story</h2>
       </MyStory>
       <Resume>
-        <h2>Skills</h2>
+        <h2>My Skills</h2>
       </Resume>
     </Container>
   );
