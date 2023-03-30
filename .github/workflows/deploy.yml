@@ -56,8 +56,8 @@ jobs:
 
       - name: print jwt sub claim
         run: |
-          cat jwt_secret | \
-          base64 --decode | \
+          cat jwt_secret
+          base64 --decode
           jq -r '.["token.actions.githubusercontent.com"].sub'
 
       - name: deploy to S3 bucket
