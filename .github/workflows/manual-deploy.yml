@@ -19,11 +19,10 @@ jobs:
       - name: install node
         uses: actions/setup-node@v3
         # using later versions of node breaks due to react-scripts v5.0.1 incompatible with typescript v5;
-        # this specific node/npm version works though
+        # this specific node version works though
         with:
           node-version: "16.14.2"
-          npm: "8.5.0"
-          
+
       - name: install dependencies
         run: npm install
         
@@ -33,7 +32,7 @@ jobs:
       - name: get current date
         id: date
         # pacific time = UTC-7:00
-        run: echo "REACT_APP_BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ' -d '7 hours ago')" >> $GITHUB_ENV
+        run: echo "REACT_APP_BUILD_DATE=$(TZ=America/Los_Angeles date -u +'%Y-%m-%dT%H:%M:%SZ' -d '7 hours ago')" >> $GITHUB_ENV
         
       - name: build project
         run: npm run build
