@@ -39,7 +39,7 @@ jobs:
       - name: get current date
         id: date
         # pacific time = UTC-7:00
-        run: echo "REACT_APP_BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ -d "7 hours ago')" >> $GITHUB_ENV
+        run: echo "REACT_APP_BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ -d "7 hours ago"')" >> $GITHUB_ENV
         
       - name: build project
         run: npm run build
