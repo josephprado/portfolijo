@@ -7,10 +7,6 @@ on:
     paths-ignore:
       - '.github/workflows/**'
 
-env:
-  REACT_APP_VERSION: 0.1.0
-  REACT_APP_BUILD_DATE: ${{ github.event.head_commit.timestamp }}
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -36,6 +32,16 @@ jobs:
         
       - name: run tests
         run: npm run test
+
+      - name: get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: set environment variables
+        run: echo $REACT_APP_VERSION - $REACT_APP_BUILD_DATE
+        env:
+          REACT_APP_VERSION: 0.1.0
+          REACT_APP_BUILD_DATE: ${{ steps.date.outputs.date }}
         
       - name: build project
         run: npm run build
