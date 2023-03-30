@@ -1,15 +1,19 @@
+import styled from '@emotion/styled';
 import Navbar, { type Menu, type NavbarStyle } from './Navbar';
 import { type SubMenuStyle } from './SubMenu';
 
 const navbarStyle: NavbarStyle = {
-  backgroundColor: 'white',
-  hoverBackgroundColor: 'lightgreen',
+  backgroundColor: 'inherit',
+  hoverBackgroundColor: 'inherit',
   fontColor: 'black',
-  hoverFontColor: 'black'
+  hoverFontColor: 'rgba(0, 120, 215, 1)'
 };
 
 const subMenuStyle: SubMenuStyle = {
-  ...navbarStyle,
+  backgroundColor: 'white',
+  hoverBackgroundColor: 'rgba(0, 120, 215, 0.2)',
+  fontColor: 'black',
+  hoverFontColor: 'black',
   borderColor: 'lightgray'
 };
 
@@ -67,7 +71,32 @@ const contact: Menu = {
 };
 
 function Header() {
-  return <Navbar {...navbarStyle} menus={[about, projects, contact]} />;
+  return (
+    <Container>
+      <Navbar {...navbarStyle} menus={[about, projects, contact]} />
+      <Version>
+        <div>{`VERSION ${process.env.REACT_APP_VERSION ?? ''}`}</div>
+        <div>{`${process.env.REACT_APP_BUILD_DATE ?? ''}`}</div>
+      </Version>
+    </Container>
+  );
 }
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  background-color: white;
+`;
+
+const Version = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-size: 10px;
+  color: gray;
+`;
 
 export default Header;
