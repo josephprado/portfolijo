@@ -9,8 +9,6 @@ on:
 
 env:
   REACT_APP_VERSION: 0.1.0
-  ACTIONS_STEP_DEBUG: true
-  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
 jobs:
   build-and-deploy:
@@ -51,12 +49,10 @@ jobs:
           role-to-assume: ${{ SECRETS.AWS_GITHUB_ROLE }}
           aws-region: us-west-2
 
-      - name: create jwt secret
+      - name: Get sub from GITHUB_TOKEN
         run: |
-          echo ${{ secrets.GITHUB_TOKEN }} > jwt_secret
-
-      - name: print jwt sub claim
-        run: cat jwt_secret | base64 --decode | jq -r '.["token.actions.githubusercontent.com"].sub'
+          sub=$(echo ${{ secrets.GITHUB_TOKEN }} | base64 --decode | jq -r '.["token.actions.githubusercontent.com"].sub')
+          echo "Sub: $sub"
 
       - name: deploy to S3 bucket
         run: aws s3 sync ./build/ s3://portfolijo --delete
