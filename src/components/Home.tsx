@@ -65,12 +65,10 @@ const Attribution = styled.a`
 `;
 
 const MyStory = styled(Section)`
-  padding-top: 5vh;
   background-color: white;
 `;
 
 const Resume = styled(Section)`
-  padding-top: 5vh;
   background-color: lightgray;
 `;
 
