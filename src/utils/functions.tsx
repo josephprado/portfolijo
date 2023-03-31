@@ -17,3 +17,14 @@ export const paramRoute = (
   );
   return path;
 };
+
+/**
+ * Gets the fragment (the part after #) from the given route
+ *
+ * @param route A url string
+ * @returns The fragment from the route, or an empty string if no fragment
+ */
+export const getFragment = (route: string) => {
+  const routeParts = route.split('#');
+  return routeParts.length > 1 ? routeParts[1] : '';
+};

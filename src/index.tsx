@@ -3,17 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { routes } from './utils/routes';
 import App from './components/App';
-import Home from './components/Home';
+import About from './components/About';
 import Error from './components/Error';
-
-/**
- * All base route urls
- */
-export const routes = {
-  home: '/',
-  error: '/error'
-};
 
 const router = createBrowserRouter([
   {
@@ -22,7 +15,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: routes.home,
-        element: <Home />
+        element: <About />
+      },
+      {
+        path: routes.about,
+        element: <About />
       },
       {
         path: routes.error,

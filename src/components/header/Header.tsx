@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Navbar, { type Menu, type NavbarStyle } from './Navbar';
 import { type SubMenuStyle } from './SubMenu';
+import { routes } from '../../utils/routes';
 
 const navbarStyle: NavbarStyle = {
   backgroundColor: 'inherit',
@@ -19,10 +20,14 @@ const subMenuStyle: SubMenuStyle = {
 
 const about: Menu = {
   label: 'About',
+  link: routes.about,
   subMenu: {
     ...subMenuStyle,
     name: 'about',
-    items: [{ label: 'My Story' }, { label: 'Resume' }]
+    items: [
+      { label: 'My Story', link: routes.myStory },
+      { label: 'Skills', link: routes.skills }
+    ]
   }
 };
 
