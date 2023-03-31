@@ -43,11 +43,6 @@ jobs:
           role-to-assume: ${{ SECRETS.AWS_GITHUB_ROLE }}
           aws-region: us-west-2
 
-      - name: Get sub from GITHUB_TOKEN
-        run: |
-          sub=$(echo ${{ secrets.GITHUB_TOKEN }} | base64 --decode | jq -r '.["token.actions.githubusercontent.com"].sub')
-          echo "Sub: $sub"
-
       - name: deploy to S3 bucket
         run: aws s3 sync ./build/ s3://portfolijo --delete
 
