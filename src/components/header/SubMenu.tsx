@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import RightArrow from './RightArrow';
 
 export interface SubMenuItem {
   label: string;
+  link?: string;
   subMenu?: SubMenuProps;
 }
 
@@ -93,30 +96,24 @@ function SubMenu({
     >
       <>
         {items?.map((item) => {
-          const { label, subMenu } = item;
+          const { label, link, subMenu } = item;
+          const labelAndArrow = (
+            <>
+              {label}
+              {subMenu && <RightArrow />}
+            </>
+          );
 
           return (
             <Item key={label} id={getSubMenuId(label)} {...subMenuStyle}>
-              <ItemContent>
-                {label}
-                {subMenu && (
-                  <SubMenu {...subMenuStyle} {...subMenu} parentName={label} />
-                )}
-                {subMenu && (
-                  <svg
-                    width="6"
-                    height="12"
-                    viewBox="0 0 7 15"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6.5 7.5L0.5 14.4282V0.571797L6.5 7.5Z"
-                      fill="black"
-                    />
-                  </svg>
-                )}
-              </ItemContent>
+              {link ? (
+                <StyledLink to={link}>{labelAndArrow}</StyledLink>
+              ) : (
+                <NonLink>{labelAndArrow}</NonLink>
+              )}
+              {subMenu && (
+                <SubMenu {...subMenuStyle} {...subMenu} parentName={label} />
+              )}
             </Item>
           );
         })}
@@ -146,7 +143,6 @@ const Item = styled.div<SubMenuStyle>`
   position: relative;
   min-width: max-content;
   flex-grow: 1;
-  padding: 8px 16px;
 
   :hover {
     background-color: ${(props) => props.hoverBackgroundColor};
@@ -154,10 +150,25 @@ const Item = styled.div<SubMenuStyle>`
   }
 `;
 
-const ItemContent = styled.div`
+const StyledLink = styled(Link)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 8px 16px;
+  color: inherit;
+  text-decoration: none;
+
+  svg {
+    margin-left: 16px;
+  }
+`;
+
+const NonLink = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  color: inherit;
 
   svg {
     margin-left: 16px;

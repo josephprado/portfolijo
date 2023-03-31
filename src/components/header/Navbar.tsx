@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import SubMenu, { type SubMenuProps } from './SubMenu';
 
 export interface Menu {
   label: string;
+  link?: string;
   subMenu?: SubMenuProps;
 }
 
@@ -51,7 +53,7 @@ function Navbar({
       backgroundColor={backgroundColor}
     >
       {menus?.map((menu) => {
-        const { label, subMenu } = menu;
+        const { label, link, subMenu } = menu;
 
         return (
           <MenuWrapper
@@ -61,7 +63,11 @@ function Navbar({
             fontColor={fontColor}
             hoverFontColor={hoverFontColor}
           >
-            {label}
+            {link ? (
+              <StyledLink to={link}>{label}</StyledLink>
+            ) : (
+              <NonLink>{label}</NonLink>
+            )}
             {subMenu && <SubMenu {...subMenu} offset={height} />}
           </MenuWrapper>
         );
@@ -79,7 +85,6 @@ const Container = styled.nav<{ backgroundColor: string }>`
 
 const MenuWrapper = styled.div<NavbarStyle>`
   position: relative;
-  padding: 8px 16px;
   cursor: pointer;
   background-color: ${(props) => props.backgroundColor};
   color: ${(props) => props.fontColor};
@@ -92,6 +97,19 @@ const MenuWrapper = styled.div<NavbarStyle>`
       display: flex;
     }
   }
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+  padding: 8px 16px;
+  color: inherit;
+  text-decoration: none;
+`;
+
+const NonLink = styled.div`
+  display: flex;
+  padding: 8px 16px;
+  color: inherit;
 `;
 
 export default Navbar;
