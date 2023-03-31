@@ -10,7 +10,7 @@ function App() {
         <Main>
           <Outlet />
         </Main>
-        <Footer>Footer</Footer>
+        <Footer>Foot</Footer>
       </ScrollContainer>
     </Container>
   );
