@@ -71,6 +71,6 @@ jobs:
         if: inputs.upload == true
         uses: actions/upload-artifact@v3
         with:
-          name: $ARTIFACT_NAME
+          name: ${{ env.ARTIFACT_NAME }}
           path: ./build/
           retention-days: 1
