@@ -35,7 +35,10 @@ jobs:
           path: .
 
       - name: print current directory
-        run: ls
+        run: |
+          ls
+          cd ..
+          ls
 
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
