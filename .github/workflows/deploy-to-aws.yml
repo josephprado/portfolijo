@@ -7,14 +7,11 @@ on:
     types: closed
     paths-ignore: '.github/workflows/**'
 
-env:
-  ARTIFACT_NAME: build-${{ github.run_id }}
-
 jobs:
   build-test-upload:
     uses: ./.github/workflows/build-and-test.yml
     with:
-        artifact-name: ${{ env.ARTIFACT_NAME }}
+      artifact-name: deploy-${{ github.run_id }}
 
   deploy:
     needs: build-test-upload
@@ -30,12 +27,11 @@ jobs:
         run: |
           echo event: ${{ github.event_name }}
           echo ref: ${{ github.ref }}
-          echo ARTIFACT_NAME: $ARTIFACT_NAME
 
       - name: download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.ARTIFACT_NAME }}
+          name: deploy-${{ github.run_id }}
           path: .
 
       - name: configure AWS credentials
@@ -45,7 +41,7 @@ jobs:
           aws-region: us-west-2
 
       - name: deploy to S3 bucket
-        run: aws s3 sync ./$ARTIFACT_NAME/ s3://portfolijo --delete
+        run: aws s3 sync ./deploy-${{ github.run_id }}/ s3://portfolijo --delete
 
       - name: invalidate cloudfront cache
         run: aws cloudfront create-invalidation --distribution-id ${{ SECRETS.AWS_CLOUDFRONT_DIST_ID}} --paths "/*"
