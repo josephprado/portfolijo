@@ -41,7 +41,7 @@ jobs:
           aws-region: us-west-2
 
       - name: deploy to S3 bucket
-        run: aws s3 sync ./deploy-${{ github.run_id }}/ s3://portfolijo --delete
+        run: aws s3 sync deploy-${{ github.run_id }}/ s3://portfolijo --delete
 
       - name: invalidate cloudfront cache
         run: aws cloudfront create-invalidation --distribution-id ${{ SECRETS.AWS_CLOUDFRONT_DIST_ID}} --paths "/*"
