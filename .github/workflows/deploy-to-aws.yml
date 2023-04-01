@@ -11,7 +11,7 @@ jobs:
   build-test-upload:
     uses: ./.github/workflows/build-and-test.yml
     with:
-      artifact-name: deploy-${{ github.run_id }}
+      artifact-name: build-files
 
   deploy:
     needs: build-test-upload
@@ -31,8 +31,8 @@ jobs:
       - name: download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: deploy-${{ github.run_id }}
-          path: .
+          name: build-files
+          path: build-files
 
       - name: print current directory
         run: |
@@ -47,7 +47,7 @@ jobs:
           aws-region: us-west-2
 
       - name: deploy to S3 bucket
-        run: aws s3 sync ./deploy-${{ github.run_id }}/ s3://portfolijo --delete
+        run: aws s3 sync build-files/ s3://portfolijo --delete
 
       - name: invalidate cloudfront cache
         run: aws cloudfront create-invalidation --distribution-id ${{ SECRETS.AWS_CLOUDFRONT_DIST_ID}} --paths "/*"
