@@ -26,6 +26,9 @@ jobs:
           echo ref: ${{ github.ref }}
           echo ARTIFACT_NAME: $ARTIFACT_NAME
 
+      - name: checkout code
+        uses: actions/checkout@v3
+
       - name: build, test, and upload artifacts
         uses: ./github/workflows/build-and-test.yml@main
         with:
