@@ -29,12 +29,12 @@ jobs:
       - name: build, test, and upload artifacts
         uses: ./github/workflows/build-and-test.yml@main
         with:
-          name: $ARTIFACT_NAME
+          name: ${{ env.ARTIFACT_NAME }}
 
       - name: download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: $ARTIFACT_NAME
+          name: ${{ env.ARTIFACT_NAME }}
           path: .
 
       - name: configure AWS credentials
