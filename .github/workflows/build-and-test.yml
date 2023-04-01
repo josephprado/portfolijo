@@ -53,7 +53,7 @@ jobs:
         # pacific time = UTC-7:00
       - name: set build version and date
         run: |
-          echo "REACT_APP_VERSION=(jq -r .version package.json)" >> $GITHUB_ENV
+          echo "REACT_APP_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
           echo "REACT_APP_BUILD_DATE=$(date -u +'%m/%d/%Y %H:%M:%SPT' -d '7 hours ago')" >> $GITHUB_ENV
 
       - name: build and test
