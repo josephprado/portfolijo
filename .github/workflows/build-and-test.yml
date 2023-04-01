@@ -28,7 +28,6 @@ env:
 
 jobs:
   build-and-test:
-    needs: pre
     runs-on: ubuntu-latest
 
     steps:
