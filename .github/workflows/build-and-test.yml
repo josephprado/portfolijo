@@ -64,7 +64,7 @@ jobs:
           npm run test
 
       - name: set custom artifact name
-        if: inputs.upload == true && inputs.artifact_name != ''
+        if: inputs.upload == true && inputs.artifact-name != ''
         run: echo "ARTIFACT_NAME=${{ inputs.artifact-name }}" > $GITHUB_ENV
 
       - name: upload artifacts
