@@ -14,7 +14,7 @@ jobs:
   build-test-upload:
     uses: ./.github/workflows/build-and-test.yml
     with:
-        name: ${{ env.ARTIFACT_NAME }}
+        artifact-name: ${{ env.ARTIFACT_NAME }}
 
   deploy:
     needs: build-test-upload
