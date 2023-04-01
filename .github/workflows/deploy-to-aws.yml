@@ -11,7 +11,13 @@ env:
   ARTIFACT_NAME: build-${{ github.run_id }}
 
 jobs:
+  build-test-upload:
+    uses: ./.github/workflows/build-and-test.yml@main
+    with:
+        name: ${{ env.ARTIFACT_NAME }}
+
   deploy:
+    needs: build-test-upload
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
 
@@ -25,14 +31,6 @@ jobs:
           echo event: ${{ github.event_name }}
           echo ref: ${{ github.ref }}
           echo ARTIFACT_NAME: $ARTIFACT_NAME
-
-      - name: checkout code
-        uses: actions/checkout@v3
-
-      - name: build, test, and upload artifacts
-        uses: ./github/workflows/build-and-test.yml@main
-        with:
-          name: ${{ env.ARTIFACT_NAME }}
 
       - name: download artifacts
         uses: actions/download-artifact@v3
