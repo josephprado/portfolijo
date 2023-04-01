@@ -1,0 +1,50 @@
+name: deploy-to-aws
+on:
+  workflow_dispatch:
+  workflow_call:
+  pull_request:
+    branches: main
+    types: closed
+    paths-ignore: '.github/workflows/**'
+
+env:
+  ARTIFACT_NAME: build-${{ github.run_id }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
+
+    permissions: # for GitHub OpenID Connect token
+      id-token: write
+      contents: read
+
+    steps:
+      - name: debug
+        run: |
+          echo event: ${{ github.event_name }}
+          echo ref: ${{ github.ref }}
+          echo ARTIFACT_NAME: $ARTIFACT_NAME
+
+      - name: build, test, and upload artifacts
+        uses: ./github/workflows/build-and-test.yml@main
+        with:
+          name: $ARTIFACT_NAME
+
+      - name: download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: $ARTIFACT_NAME
+          path: .
+
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ SECRETS.AWS_GITHUB_ROLE }}
+          aws-region: us-west-2
+
+      - name: deploy to S3 bucket
+        run: aws s3 sync ./$ARTIFACT_NAME/ s3://portfolijo --delete
+
+      - name: invalidate cloudfront cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ SECRETS.AWS_CLOUDFRONT_DIST_ID}} --paths "/*"
