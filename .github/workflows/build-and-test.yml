@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       artifact-name:
+        type: string
         default: ''
       upload:
         type: boolean
@@ -10,6 +11,7 @@ on:
   workflow_call:
     inputs:
       artifact-name:
+        type: string
         required: true
       upload:
         type: boolean
