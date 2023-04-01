@@ -1,0 +1,75 @@
+name: build-and-test
+on:
+  workflow_dispatch:
+    inputs:
+      artifact-name:
+        default: ''
+      upload:
+        type: boolean
+        default: false
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: true
+      upload:
+        type: boolean
+        default: true
+  push:
+    paths-ignore: '.github/workflows/**'
+  pull_request:
+    branches: main
+    types: [opened, synchronize, reopened]
+    paths-ignore: '.github/workflows/**'
+
+env:
+  ARTIFACT_NAME: build-and-test-${{ github.run_id }}
+
+jobs:
+  build-and-test:
+    needs: pre
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: debug
+        run: |
+          echo event: ${{ github.event_name }}
+          echo ref: ${{ github.ref }}
+          echo artifact-name: ${{ inputs.artifact-name }}
+          echo upload: ${{ inputs.upload }}
+          echo ARTIFACT_NAME: $ARTIFACT_NAME
+
+      - name: checkout code
+        uses: actions/checkout@v3
+
+        # using later versions of node breaks due to react-scripts v5.0.1 incompatible with typescript v5;
+        # this specific node version works though
+      - name: install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.14.2"
+
+      - name: install dependencies
+        run: npm install
+
+        # pacific time = UTC-7:00
+      - name: set build version and date
+        run: |
+          echo "REACT_APP_VERSION=(jq -r .version package.json)" >> $GITHUB_ENV
+          echo "REACT_APP_BUILD_DATE=$(date -u +'%m/%d/%Y %H:%M:%SPT' -d '7 hours ago')" >> $GITHUB_ENV
+
+      - name: build and test
+        run: |
+          npm run build
+          npm run test
+
+      - name: set custom artifact name
+        if: inputs.upload == true && inputs.artifact_name != ''
+        run: echo "ARTIFACT_NAME=${{ inputs.artifact-name }}" > $GITHUB_ENV
+
+      - name: upload artifacts
+        if: inputs.upload == true
+        uses: actions/upload-artifact@v3
+        with:
+          name: env.ARTIFACT_NAME
+          path: ./build/
+          retention-days: 1
