@@ -7,6 +7,9 @@ import { routes } from './utils/routes';
 import App from './components/App';
 import About from './components/About';
 import Error from './components/Error';
+import { ThemeProvider } from '@emotion/react';
+import { HeaderContextProvider } from './components/header/HeaderContext';
+import theme from './utils/theme';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +37,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <HeaderContextProvider>
+        <RouterProvider router={router} />
+      </HeaderContextProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
 
