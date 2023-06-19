@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { routes } from '../utils/routes';
 import { type HeaderMenuProps } from './header/HeaderMenu';
 import styled from '@emotion/styled';
+import Footer from './footer/Footer';
 
 const defaultMenus: HeaderMenuProps[] = [
   {
@@ -63,6 +64,7 @@ function App() {
       <Main marginTop={marginTop}>
         <Outlet />
       </Main>
+      <Footer />
     </>
   );
 }
