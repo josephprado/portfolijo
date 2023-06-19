@@ -28,3 +28,26 @@ export const getFragment = (route: string) => {
   const routeParts = route.split('#');
   return routeParts.length > 1 ? routeParts[1] : '';
 };
+
+// TODO: create tests
+/**
+ * Scrolls the window to the given element
+ *
+ * @param element The element to scroll to
+ * @param offset The amount to offset the element from the top of the screen
+ * @param behavior The scroll behavior
+ * @see https://amitd.co/code/javascript/scroll-into-view-with-offset
+ */
+export const scrollIntoViewWithOffset = (
+  element: HTMLElement,
+  offset: number,
+  behavior: ScrollBehavior
+): void => {
+  window.scrollTo({
+    behavior,
+    top:
+      element.getBoundingClientRect().top -
+      document.body.getBoundingClientRect().top -
+      offset
+  });
+};

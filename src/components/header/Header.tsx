@@ -1,108 +1,76 @@
-import styled from '@emotion/styled';
-import Navbar, { type Menu, type NavbarStyle } from './Navbar';
-import { type SubMenuStyle } from './SubMenu';
-import { routes } from '../../utils/routes';
+import { AppBar, Box, Toolbar, styled } from '@mui/material';
+import HeaderMenu, { type HeaderMenuProps } from './HeaderMenu';
+import HamburgerMenu from './HamburgerMenu';
 
-const navbarStyle: NavbarStyle = {
-  backgroundColor: 'inherit',
-  hoverBackgroundColor: 'inherit',
-  fontColor: 'black',
-  hoverFontColor: 'rgba(0, 120, 215, 1)'
-};
+/**
+ * Props for the {@link Header} component
+ */
+export interface HeaderProps {
+  /**
+   * A CSS class name
+   */
+  className?: string;
 
-const subMenuStyle: SubMenuStyle = {
-  backgroundColor: 'white',
-  hoverBackgroundColor: 'rgba(0, 120, 215, 0.2)',
-  fontColor: 'black',
-  hoverFontColor: 'black',
-  borderColor: 'lightgray'
-};
+  /**
+   * A CSS id name
+   *
+   * @default app-header
+   */
+  id?: string;
 
-const about: Menu = {
-  label: 'About',
-  link: routes.about,
-  subMenu: {
-    ...subMenuStyle,
-    name: 'about',
-    items: [
-      { label: 'My Story', link: routes.myStory },
-      { label: 'Skills', link: routes.skills }
-    ]
-  }
-};
+  /**
+   * Alignment of the navigation menu items
+   *
+   * @default left
+   */
+  alignment?: 'left' | 'right' | 'center';
 
-const projects: Menu = {
-  label: 'Projects',
-  subMenu: {
-    ...subMenuStyle,
-    name: 'projects',
-    items: [
-      {
-        label: 'Project One',
-        subMenu: {
-          name: 'project1',
-          items: [{ label: 'Live Project One' }, { label: 'Repository One' }]
-        }
-      },
-      {
-        label: 'Project Two',
-        subMenu: {
-          name: 'project2',
-          items: [{ label: 'Live Project Two' }, { label: 'Repository Two' }]
-        }
-      },
-      {
-        label: 'Project Three',
-        subMenu: {
-          name: 'project3',
-          items: [
-            { label: 'Live Project Three' },
-            {
-              label: 'Repository Three',
-              subMenu: {
-                name: 'repository',
-                items: [{ label: 'github' }, { label: 'devops' }]
-              }
-            }
-          ]
-        }
-      }
-    ]
-  }
-};
+  /**
+   * Navigation menu items
+   */
+  menus?: HeaderMenuProps[];
+}
 
-const contact: Menu = {
-  label: 'Contact'
-};
-
-function Header() {
+/**
+ * A fixed position header
+ *
+ * @param props {@link HeaderProps}
+ * @returns A JSX element
+ */
+function Header({
+  className,
+  id = 'app-header',
+  alignment = 'left',
+  menus
+}: HeaderProps) {
   return (
-    <Container>
-      <Navbar {...navbarStyle} menus={[about, projects, contact]} />
-      <Version>
-        <div>{`VERSION ${process.env.REACT_APP_VERSION ?? ''}`}</div>
-        <div>{`${process.env.REACT_APP_BUILD_DATE ?? ''}`}</div>
-      </Version>
-    </Container>
+    <AppBar className={className} id={id} position="fixed">
+      <StyledToolbar variant="dense">
+        <Box sx={{ display: { sm: 'none' } }}>
+          <HamburgerMenu menus={menus} />
+        </Box>
+        <Navbar
+          component="nav"
+          alignment={alignment}
+          sx={{ display: { xs: 'none', sm: 'flex' } }}
+        >
+          {menus?.map(({ label, to, sub }) => (
+            <HeaderMenu key={label} label={label} to={to} sub={sub} />
+          ))}
+        </Navbar>
+      </StyledToolbar>
+    </AppBar>
   );
 }
 
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+const StyledToolbar = styled(Toolbar)`
   background-color: white;
-  z-index: 2;
+  justify-content: space-between;
 `;
 
-const Version = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: right;
-  font-size: 10px;
-  color: gray;
+const Navbar = styled(Box)<{ alignment: HeaderProps['alignment'] }>`
+  flex-grow: 1;
+  justify-content: ${(props) => props.alignment};
 `;
 
 export default Header;
